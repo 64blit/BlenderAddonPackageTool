@@ -3,23 +3,23 @@
 
 import os
 from configparser import ConfigParser
-
+from statistics import pvariance
 from common.class_loader.module_installer import default_blender_addon_path, normalize_blender_path_by_system
 
 # The name of current active addon to be created, tested or released
 # 要创建、测试或发布的当前活动插件的名称
-ACTIVE_ADDON = "sample_addon"
+ACTIVE_ADDON = "webcrafter_ai"
 
 # The path of the blender executable. Blender2.93 is the minimum version required
 # Blender可执行文件的路径，Blender2.93是所需的最低版本
-BLENDER_EXE_PATH = "C:/software/general/Blender/blender-3.6.0-windows-x64/blender.exe"
+# BLENDER_EXE_PATH = "C:/software/general/Blender/blender-3.6.0-windows-x64/blender.exe"
 
 # Linux example Linux示例
 # BLENDER_EXE_PATH = "/usr/local/blender/blender-3.6.0-linux-x64/blender"
 
 # MacOS examplenotice "/Contents/MacOS/Blender" will be appended automatically if you didn't write it explicitly
 # MacOS示例 框架会自动附加"/Contents/MacOS/Blender" 所以您不必写出
-# BLENDER_EXE_PATH = "/Applications/Blender/blender-3.6.0-macOS/Blender.app"
+BLENDER_EXE_PATH = "/Applications/Blender.app/Contents/MacOS/Blender"
 
 # Are you developing an extension(for Blender4.2) instead of legacy addon?
 # https://docs.blender.org/manual/en/latest/advanced/extensions/addons.html
@@ -28,7 +28,7 @@ BLENDER_EXE_PATH = "C:/software/general/Blender/blender-3.6.0-windows-x64/blende
 # 是否是面向Blender4.2以后的扩展而不是传统插件？
 # https://docs.blender.org/manual/en/latest/advanced/extensions/addons.html
 # 在打包扩展时，框架会将绝对导入转换为相对导入。如果你从传统插件迁移到扩展，请确保更新config.py中的__addon_name__
-IS_EXTENSION = False
+IS_EXTENSION = True
 
 # You can override the default path by setting the path manually
 # 您可以通过手动设置路径来覆盖默认插件安装路径 或者在config.ini中设置
@@ -38,19 +38,24 @@ if os.path.exists(BLENDER_EXE_PATH):
     BLENDER_ADDON_PATH = default_blender_addon_path(BLENDER_EXE_PATH)
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+print(f"PROJECT_ROOT = {PROJECT_ROOT}")
 
 # 若存在config.ini则从其中中读取配置
 CONFIG_FILEPATH = os.path.join(PROJECT_ROOT, 'config.ini')
+print(f"CONFIG_FILEPATH = {CONFIG_FILEPATH}")
 
 # The default release dir. Must not within the current workspace
 # 插件发布的默认目录，不能在当前工作空间内
 DEFAULT_RELEASE_DIR = os.path.join(PROJECT_ROOT, "../addon_release/")
+print(f"DEFAULT_RELEASE_DIR = {DEFAULT_RELEASE_DIR}")
 
 # The default test release dir. Must not within the current workspace
 # 测试插件发布的默认目录，不能在当前工作空间内
 TEST_RELEASE_DIR = os.path.join(PROJECT_ROOT, "../addon_test/")
+print(f"TEST_RELEASE_DIR = {TEST_RELEASE_DIR}")
 
 if os.path.isfile(CONFIG_FILEPATH):
+    print(f"CONFIG_FILEPATH = {CONFIG_FILEPATH}")
     configParser = ConfigParser()
     configParser.read(CONFIG_FILEPATH, encoding='utf-8')
 

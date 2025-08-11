@@ -12,4 +12,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('addon', default=ACTIVE_ADDON, nargs='?', help='addon name')
     args = parser.parse_args()
+    print("|"+ args.addon+"|")
     new_addon(args.addon)
